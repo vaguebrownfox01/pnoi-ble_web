@@ -27,7 +27,8 @@ const ToneModal = React.memo(function ToneModal({
 				>
 					{info.label}
 				</Typography>
-				<Stack direction="row" spacing={2}>
+
+				<Stack direction="row" spacing={2} pt={4}>
 					<Button
 						onClick={handleError}
 						variant="outlined"
