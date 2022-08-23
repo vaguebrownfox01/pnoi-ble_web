@@ -23,6 +23,7 @@ const Tones = React.memo(function Tones() {
 		stimTones,
 		currTone,
 		errorTone,
+		time,
 		modalOpen,
 		buttonDisable,
 		handleStartTone,
@@ -45,6 +46,7 @@ const Tones = React.memo(function Tones() {
 					handleError: handleToneError.bind({ ...errorTone }),
 					handleFinish: handleStopTone,
 					buttonDisable,
+					time,
 				}}
 			/>
 			<Typography variant="h6" gutterBottom>

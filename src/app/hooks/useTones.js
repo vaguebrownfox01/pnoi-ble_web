@@ -8,6 +8,10 @@ const useTones = () => {
 	const [isToning, setIsToning] = React.useState(false);
 	const [buttonDisable, setButtonDisable] = React.useState(false);
 
+	const [time, setTimer] = React.useState(0);
+
+	const interval = React.useRef(null);
+
 	function playTone(note, duration) {
 		setIsToning(true);
 
@@ -23,7 +27,6 @@ const useTones = () => {
 
 	function handleStartTone() {
 		setModalOpen(true);
-		setButtonDisable(true);
 
 		const note = `${this.note}${this.octave}`;
 		const duration = `${this.duration / 1000}s`;
@@ -37,7 +40,6 @@ const useTones = () => {
 
 	function handleStopTone() {
 		setModalOpen(false);
-		setButtonDisable(true);
 
 		const note = `${currTone.note}${currTone.octave}`;
 		const duration = `${currTone.duration / 2 / 1000}s`;
@@ -45,27 +47,39 @@ const useTones = () => {
 		setCurrTone({});
 
 		playTone(note, duration);
+		clearTimeout(interval);
+		setTimer(0);
 	}
 
 	function handleToneError() {
-		setModalOpen(false);
-		setButtonDisable(true);
-
 		const note = `${this.note}${this.octave}`;
 		const duration = `${this.duration / 1000}s`;
+
+		setModalOpen(false);
 
 		playTone(note, duration);
 	}
 
 	React.useEffect(() => {
 		setButtonDisable(isToning);
-		return () => {};
 	}, [isToning]);
+
+	React.useEffect(() => {
+		if (modalOpen) {
+			setTimer(0);
+			interval.current = setInterval(() => {
+				setTimer((prev) => prev + 1);
+			}, 1000);
+		} else {
+			clearInterval(interval.current);
+		}
+	}, [modalOpen]);
 
 	return {
 		stimTones,
 		currTone,
 		errorTone,
+		time,
 		modalOpen,
 		buttonDisable,
 		handleStartTone,

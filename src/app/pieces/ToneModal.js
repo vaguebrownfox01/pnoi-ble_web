@@ -1,5 +1,6 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import { red } from "@mui/material/colors";
 import Modal from "@mui/material/Modal";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -8,6 +9,7 @@ import * as React from "react";
 const ToneModal = React.memo(function ToneModal({
 	open,
 	info,
+	time,
 	buttonDisable,
 	handleFinish,
 	handleError,
@@ -28,6 +30,15 @@ const ToneModal = React.memo(function ToneModal({
 				>
 					{info.label}
 				</Typography>
+
+				<>
+					<Typography
+						sx={{ pt: 2 }}
+						variant="h5"
+						color={red[400]}
+						textAlign="center"
+					>{`${time}s`}</Typography>
+				</>
 
 				<Stack direction="row" spacing={2} pt={4}>
 					<Button
