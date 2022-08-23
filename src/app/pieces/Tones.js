@@ -3,6 +3,8 @@ import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Unstable_Grid2";
 import * as React from "react";
+import useTones from "../hooks/useTones";
+import ToneModal from "./ToneModal";
 
 const Item = styled(Button)(({ theme }) => ({
 	textAlign: "center",
@@ -17,23 +19,52 @@ const Item = styled(Button)(({ theme }) => ({
 }));
 
 const Tones = React.memo(function Tones() {
+	const {
+		stimTones,
+		currTone,
+		errorTone,
+		modalOpen,
+		buttonDisable,
+		handleStartTone,
+		handleStopTone,
+		handleToneError,
+	} = useTones();
+
 	return (
-		<Box sx={{ width: "100%", height: "100%" }}>
+		<Box
+			sx={{
+				width: "100%",
+				height: "100%",
+				filter: `blur(${modalOpen ? 4 : 0}px)`,
+			}}
+		>
+			<ToneModal
+				open={modalOpen}
+				info={currTone}
+				{...{
+					handleError: handleToneError.bind({ ...errorTone }),
+					handleFinish: handleStopTone,
+				}}
+			/>
 			<Typography variant="h6" gutterBottom>
-				Breath locations
+				Record locations
 			</Typography>
 			<Grid
 				container
 				rowSpacing={1}
 				columnSpacing={{ xs: 1, sm: 1, md: 1 }}
 			>
-				{tones.map((tone, i) => (
+				{stimTones.map((tone, i) => (
 					<Grid
 						alignContent="stretch"
 						xs={6}
 						key={`${tone.type}-${i}`}
 					>
-						<Item fullWidth>
+						<Item
+							onClick={handleStartTone.bind({ ...tone })}
+							disabled={buttonDisable}
+							fullWidth
+						>
 							<ToneInfo {...tone} />
 						</Item>
 					</Grid>
@@ -45,43 +76,16 @@ const Tones = React.memo(function Tones() {
 
 export default Tones;
 
-const ToneInfo = React.memo(function ToneInfo({ type, label, tone, duration }) {
+const ToneInfo = React.memo(function ToneInfo({
+	type,
+	label,
+	note,
+	octave,
+	duration,
+}) {
 	return (
-		<Box sx={{ width: "100%" }}>
+		<Box sx={{ width: "100%", padding: [2, 0] }}>
 			<Typography variant="body1">{label}</Typography>
-			<Typography variant="caption" component="div">
-				{tone}
-			</Typography>
-			<Typography variant="caption" component="div">
-				{duration}
-			</Typography>
 		</Box>
 	);
 });
-
-const tones = [
-	{
-		type: "breath",
-		label: "Left Upper",
-		tone: "C7",
-		duration: "2s",
-	},
-	{
-		type: "breath",
-		label: "Right Upper",
-		tone: "E7",
-		duration: "2s",
-	},
-	{
-		type: "breath",
-		label: "Left Lower",
-		tone: "G7",
-		duration: "2s",
-	},
-	{
-		type: "breath",
-		label: "Right Lower",
-		tone: "B7",
-		duration: "2s",
-	},
-];
