@@ -15,14 +15,22 @@ const useTones = () => {
 	function playTone(note, duration) {
 		setIsToning(true);
 
-		const synth = new Tone.Synth({
-			onsilence: () => {
+		// const synth = new Tone.Synth({
+		// 	onsilence: () => {
+		// 		setIsToning(false);
+		// 	},
+		// }).toDestination();
+
+		// const now = Tone.now();
+		// synth.triggerAttackRelease(note, duration, now); // Play tone
+
+		const osc = new Tone.Oscillator({
+			onstop: () => {
 				setIsToning(false);
 			},
 		}).toDestination();
-
-		const now = Tone.now();
-		synth.triggerAttackRelease(note, duration, now); // Play tone
+		osc.frequency.value = note;
+		osc.start().stop(`+${duration}`);
 	}
 
 	function handleStartTone() {
