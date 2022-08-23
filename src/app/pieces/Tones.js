@@ -44,6 +44,7 @@ const Tones = React.memo(function Tones() {
 				{...{
 					handleError: handleToneError.bind({ ...errorTone }),
 					handleFinish: handleStopTone,
+					buttonDisable,
 				}}
 			/>
 			<Typography variant="h6" gutterBottom>

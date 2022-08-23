@@ -8,6 +8,7 @@ import * as React from "react";
 const ToneModal = React.memo(function ToneModal({
 	open,
 	info,
+	buttonDisable,
 	handleFinish,
 	handleError,
 }) {
@@ -33,6 +34,7 @@ const ToneModal = React.memo(function ToneModal({
 						onClick={handleError}
 						variant="outlined"
 						color="error"
+						disabled={buttonDisable}
 					>
 						Error
 					</Button>
@@ -40,6 +42,7 @@ const ToneModal = React.memo(function ToneModal({
 						onClick={handleFinish}
 						variant="contained"
 						color="success"
+						disabled={buttonDisable}
 					>
 						Finish
 					</Button>
