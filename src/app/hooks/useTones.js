@@ -12,17 +12,8 @@ const useTones = () => {
 
 	const interval = React.useRef(null);
 
-	function playTone(note, duration) {
+	function playOscillatorTone(note, duration) {
 		setIsToning(true);
-
-		// const synth = new Tone.Synth({
-		// 	onsilence: () => {
-		// 		setIsToning(false);
-		// 	},
-		// }).toDestination();
-
-		// const now = Tone.now();
-		// synth.triggerAttackRelease(note, duration, now); // Play tone
 
 		const osc = new Tone.Oscillator({
 			onstop: () => {
@@ -30,7 +21,20 @@ const useTones = () => {
 			},
 		}).toDestination();
 		osc.frequency.value = note;
-		osc.start().stop(`+${duration}`);
+		osc.start().stop(`+${duration}`); // Play tone
+	}
+
+	function playSynthTone(note, duration) {
+		setIsToning(true);
+
+		const synth = new Tone.Synth({
+			onsilence: () => {
+				setIsToning(false);
+			},
+		}).toDestination();
+
+		const now = Tone.now();
+		synth.triggerAttackRelease(note, duration, now); // Play tone
 	}
 
 	function handleStartTone() {
@@ -43,7 +47,7 @@ const useTones = () => {
 			...this,
 		});
 
-		playTone(note, duration);
+		playOscillatorTone(note, duration);
 	}
 
 	function handleStopTone() {
@@ -54,7 +58,7 @@ const useTones = () => {
 
 		setCurrTone({});
 
-		playTone(note, duration);
+		playOscillatorTone(note, duration);
 		clearTimeout(interval);
 		setTimer(0);
 	}
@@ -65,7 +69,7 @@ const useTones = () => {
 
 		setModalOpen(false);
 
-		playTone(note, duration);
+		playOscillatorTone(note, duration);
 	}
 
 	React.useEffect(() => {
@@ -81,6 +85,8 @@ const useTones = () => {
 		} else {
 			clearInterval(interval.current);
 		}
+
+		return clearInterval(interval.current);
 	}, [modalOpen]);
 
 	return {
