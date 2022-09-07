@@ -6,7 +6,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
 
-const ToneModal = React.memo(function ToneModal({
+const RecordModal = React.memo(function RecordModal({
 	open,
 	info,
 	time,
@@ -63,7 +63,7 @@ const ToneModal = React.memo(function ToneModal({
 	);
 });
 
-export default ToneModal;
+export default RecordModal;
 
 const style = {
 	position: "absolute",

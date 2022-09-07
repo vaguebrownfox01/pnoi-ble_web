@@ -3,8 +3,10 @@ import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Unstable_Grid2";
 import * as React from "react";
-import useTones from "../hooks/useTones";
-import ToneModal from "./ToneModal";
+import { stimLoc } from "../appconfig/stims";
+import useBLE from "../hooks/useBLE";
+import BluetoothPanel from "./BluetoothPanel";
+import RecordModal from "./RecordModal";
 
 const Item = styled(Button)(({ theme }) => ({
 	textAlign: "center",
@@ -18,18 +20,9 @@ const Item = styled(Button)(({ theme }) => ({
 	height: "100%",
 }));
 
-const Tones = React.memo(function Tones() {
-	const {
-		stimTones,
-		currTone,
-		errorTone,
-		time,
-		modalOpen,
-		buttonDisable,
-		handleStartTone,
-		handleStopTone,
-		handleToneError,
-	} = useTones();
+const Locations = React.memo(function Locations() {
+	const { handleRecord, handleBLEConnect, bleDev, currLoc, modalOpen, time } =
+		useBLE();
 
 	return (
 		<Box
@@ -39,36 +32,37 @@ const Tones = React.memo(function Tones() {
 				filter: `blur(${modalOpen ? 4 : 0}px)`,
 			}}
 		>
-			<ToneModal
+			<RecordModal
 				open={modalOpen}
-				info={currTone}
+				info={currLoc}
 				{...{
-					handleError: handleToneError.bind({ ...errorTone }),
-					handleFinish: handleStopTone,
-					buttonDisable,
+					handleError: handleRecord.bind({ action: "error" }),
+					handleFinish: handleRecord.bind({ action: "stop" }),
+					// buttonDisable,
 					time,
 				}}
 			/>
+			<BluetoothPanel {...{ bleDev, handleBLEConnect }} />
 			<Typography variant="h6" gutterBottom>
-				Record locations
+				Choose Record Location:
 			</Typography>
 			<Grid
 				container
 				rowSpacing={1}
 				columnSpacing={{ xs: 1, sm: 1, md: 1 }}
 			>
-				{stimTones.map((tone, i) => (
+				{stimLoc.map((tone, i) => (
 					<Grid
 						alignContent="stretch"
 						xs={6}
 						key={`${tone.type}-${i}`}
 					>
 						<Item
-							onClick={handleStartTone.bind({ ...tone })}
-							disabled={buttonDisable}
+							onClick={handleRecord.bind({ action: "start" })}
+							// disabled={buttonDisable}
 							fullWidth
 						>
-							<ToneInfo {...tone} />
+							<LocInfo {...tone} />
 						</Item>
 					</Grid>
 				))}
@@ -77,15 +71,9 @@ const Tones = React.memo(function Tones() {
 	);
 });
 
-export default Tones;
+export default Locations;
 
-const ToneInfo = React.memo(function ToneInfo({
-	type,
-	label,
-	note,
-	octave,
-	duration,
-}) {
+const LocInfo = React.memo(function LocInfo({ label }) {
 	return (
 		<Box sx={{ width: "100%", padding: [2, 0] }}>
 			<Typography variant="body1">{label}</Typography>

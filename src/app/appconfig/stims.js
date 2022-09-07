@@ -1,4 +1,4 @@
-export const stimTones = [
+export const stimLoc = [
 	{
 		type: "breath",
 		label: "Left Upper",

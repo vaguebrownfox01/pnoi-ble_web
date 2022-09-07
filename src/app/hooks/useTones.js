@@ -24,18 +24,18 @@ const useTones = () => {
 		osc.start().stop(`+${duration}`); // Play tone
 	}
 
-	function playSynthTone(note, duration) {
-		setIsToning(true);
+	// function playSynthTone(note, duration) {
+	// 	setIsToning(true);
 
-		const synth = new Tone.Synth({
-			onsilence: () => {
-				setIsToning(false);
-			},
-		}).toDestination();
+	// 	const synth = new Tone.Synth({
+	// 		onsilence: () => {
+	// 			setIsToning(false);
+	// 		},
+	// 	}).toDestination();
 
-		const now = Tone.now();
-		synth.triggerAttackRelease(note, duration, now); // Play tone
-	}
+	// 	const now = Tone.now();
+	// 	synth.triggerAttackRelease(note, duration, now); // Play tone
+	// }
 
 	function handleStartTone() {
 		setModalOpen(true);
