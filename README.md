@@ -2,6 +2,6 @@
 
 A SPIRE Lab project
 
-## Tann (Tone annotation)
+## Pnoiweble (Pnoi-phone App)
 
-Annotation of audio recording in real time
+Controller for Pnoi-phone module (ESP32)

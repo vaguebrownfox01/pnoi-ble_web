@@ -1,6 +1,6 @@
 import * as React from "react";
-import { PnoiPhoneBLE } from "../bluetooth/PnoiBLE";
 
+const { PnoiPhoneBLE } = require("../bluetooth/PnoiBLE");
 const useBLE = () => {
 	const [modalOpen, setModalOpen] = React.useState(false);
 	const [time, setTimer] = React.useState(0);
@@ -61,6 +61,7 @@ const useBLE = () => {
 		if (modalOpen) {
 			setTimer(0);
 			interval.current = setInterval(() => {
+				console.log("ssss");
 				setTimer((prev) => prev + 1);
 			}, 1000);
 		} else {

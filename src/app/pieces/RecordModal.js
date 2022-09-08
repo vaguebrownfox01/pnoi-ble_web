@@ -9,11 +9,29 @@ import * as React from "react";
 const RecordModal = React.memo(function RecordModal({
 	open,
 	info,
-	time,
+	// time,
 	buttonDisable,
 	handleFinish,
 	handleError,
 }) {
+	const [time, setTimer] = React.useState(0);
+	const interval = React.useRef(null);
+
+	React.useEffect(() => {
+		console.log("ssss0");
+		if (1) {
+			// setTimer(0);
+			console.log("ssss1");
+
+			interval.current = setInterval(() => {
+				console.log("ssss2");
+				setTimer((prev) => prev + 1);
+			}, 1000);
+		}
+
+		return clearInterval(interval.current);
+	}, []);
+
 	return (
 		<Modal
 			sx={{ tabIndex: "-1" }}
@@ -37,7 +55,7 @@ const RecordModal = React.memo(function RecordModal({
 						variant="h5"
 						color={red[400]}
 						textAlign="center"
-					>{`${time}s`}</Typography>
+					>{`${"Recording..."}`}</Typography>
 				</>
 
 				<Stack direction="row" spacing={2} pt={4}>

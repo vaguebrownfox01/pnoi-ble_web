@@ -4,7 +4,7 @@ const {
 	BLE_CHAR_LED_WRITE_UUID,
 } = require("./config");
 
-class PnoiPhoneBLE {
+export class PnoiPhoneBLE {
 	constructor(callback) {
 		this.device = null;
 		this.onDisconnected = this.onDisconnected.bind(this);
@@ -60,5 +60,3 @@ class PnoiPhoneBLE {
 		this.onDisconnectCallback();
 	}
 }
-
-module.exports.PnoiPhoneBLE = PnoiPhoneBLE;

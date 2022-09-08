@@ -4,7 +4,6 @@ import { Box, IconButton } from "@mui/material";
 import Button from "@mui/material/Button";
 import { blue } from "@mui/material/colors";
 import * as React from "react";
-import useBLE from "../hooks/useBLE";
 
 const BluetoothPanel = React.memo(function BluetoothPanel({
 	bleDev,
